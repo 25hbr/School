@@ -16,17 +16,41 @@
     <ul id="past-posts">
     </ul>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 // Retrieve existing posts from storage and display them
 var pastPosts = JSON.parse(localStorage.getItem("pastPosts")) || [];
 var pastPostsList = document.getElementById("past-posts");
 pastPosts.forEach(function(postContent) {
     var newPost = document.createElement("li");
     newPost.textContent = postContent;
+    pastPostsList.appendChild(newPost);
+});
+
+document.getElementById("post-form").onsubmit = function(event) {
+    event.preventDefault();
+    var postContent = document.getElementById("post-content").value;
+    postContent = postContent.toLowerCase();
+    var badWords = ["fuck", "shit", "dick", "cunt", "bitch", "nigga", "nigger", "idiot", "asshole", "frick", "cum", "heck", "damn", "stupid", "retard", "cock", "douchbag", "sex", "masturbate", "vibrator", "wank", "faggot", "pussy", "boob", "tit", "tidd", "gypsy"];
+    for (var i = 0; i < badWords.length; i++) {
+        if (postContent.includes(badWords[i])) {
+            alert("Please do not use inappropriate language.");
+            document.getElementById("post-content").value = "";
+            return;
+        }
+    }
+
+    // Save the new post to storage
+    pastPosts.push(postContent);
+    localStorage.setItem("pastPosts", JSON.stringify(pastPosts));
+
+    // Display the new post
+    var newPost = document.createElement("li");
+    newPost.textContent = postContent;
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     newPost.appendChild(deleteButton);
     pastPostsList.appendChild(newPost);
+    document.getElementById("post-content").value = "";
 
     // Add event listener to delete button
     deleteButton.addEventListener("click", function() {
@@ -39,36 +63,7 @@ pastPosts.forEach(function(postContent) {
             localStorage.setItem("pastPosts", JSON.stringify(pastPosts));
         }
     });
-});
-        pastPosts.forEach(function(postContent) {
-            var newPost = document.createElement("li");
-            newPost.textContent = postContent;
-            pastPostsList.appendChild(newPost);
-        });
-
-        document.getElementById("post-form").onsubmit = function(event) {
-            event.preventDefault();
-            var postContent = document.getElementById("post-content").value;
-            postContent = postContent.toLowerCase();
-            var badWords = ["fuck", "shit", "dick", "cunt", "bitch", "nigga", "nigger", "idiot", "asshole", "frick", "cum", "heck", "damn", "stupid", "retard", "cock", "douchbag", "sex", "masturbate", "vibrator", "wank", "faggot", "pussy", "boob", "tit", "tidd", "gypsy"];
-            for (var i = 0; i < badWords.length; i++) {
-                if (postContent.includes(badWords[i])) {
-                    alert("Please do not use inappropriate language.");
-                    document.getElementById("post-content").value = "";
-                    return;
-                }
-            }
-
-            // Save the new post to storage
-            pastPosts.push(postContent);
-            localStorage.setItem("pastPosts", JSON.stringify(pastPosts));
-
-            // Display the new post
-            var newPost = document.createElement("li");
-            newPost.textContent = postContent;
-            pastPostsList.appendChild(newPost);
-            document.getElementById("post-content").value = "";
-        }
-    </script>
+};
+</script>
 </body>
 </html>
