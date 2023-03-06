@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Post Page</title>
+</head>
+<body>
+    <h1>Simple Post Page</h1>
+
+    <form id="post-form">
+        <label for="post-content">Post Content:</label><br>
+        <textarea id="post-content" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form> 
+
+    <h2>Past Posts:</h2>
+    <ul id="past-posts">
+    </ul>
+
+    <script type="text/javascript">
+// Retrieve existing posts from storage and display them
+var pastPosts = JSON.parse(localStorage.getItem("pastPosts")) || [];
+var pastPostsList = document.getElementById("past-posts");
+pastPosts.forEach(function(postContent) {
+    var newPost = document.createElement("li");
+    newPost.textContent = postContent;
+    var deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    newPost.appendChild(deleteButton);
+    pastPostsList.appendChild(newPost);
+
+    // Add event listener to delete button
+    deleteButton.addEventListener("click", function() {
+        // Remove post from page
+        pastPostsList.removeChild(newPost);
+        // Remove post from local storage
+        var index = pastPosts.indexOf(postContent);
+        if (index > -1) {
+            pastPosts.splice(index, 1);
+            localStorage.setItem("pastPosts", JSON.stringify(pastPosts));
+        }
+    });
+});
+        pastPosts.forEach(function(postContent) {
+            var newPost = document.createElement("li");
+            newPost.textContent = postContent;
+            pastPostsList.appendChild(newPost);
+        });
+
+        document.getElementById("post-form").onsubmit = function(event) {
+            event.preventDefault();
+            var postContent = document.getElementById("post-content").value;
+            postContent = postContent.toLowerCase();
+            var badWords = ["fuck", "shit", "dick", "cunt", "bitch", "nigga", "nigger", "idiot", "asshole", "frick", "cum", "heck", "damn", "stupid", "retard", "cock", "douchbag", "sex", "masturbate", "vibrator", "wank", "faggot", "pussy", "boob", "tit", "tidd", "gypsy"];
+            for (var i = 0; i < badWords.length; i++) {
+                if (postContent.includes(badWords[i])) {
+                    alert("Please do not use inappropriate language.");
+                    document.getElementById("post-content").value = "";
+                    return;
+                }
+            }
+
+            // Save the new post to storage
+            pastPosts.push(postContent);
+            localStorage.setItem("pastPosts", JSON.stringify(pastPosts));
+
+            // Display the new post
+            var newPost = document.createElement("li");
+            newPost.textContent = postContent;
+            pastPostsList.appendChild(newPost);
+            document.getElementById("post-content").value = "";
+        }
+    </script>
+</body>
+</html>
