@@ -120,6 +120,13 @@ body    {
         deleteButton.textContent = "Delete";
         newPost.appendChild(deleteButton);
 
+        // Create a line break element
+        var lineBreak = document.createElement("br");
+
+        // Append the line break before the new post
+        pastPostsList.appendChild(lineBreak);
+        pastPostsList.appendChild(newPost);
+
         // Add event listener to delete button
         deleteButton.addEventListener("click", function() {
             // Remove post from page
