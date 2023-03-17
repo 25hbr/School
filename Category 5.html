@@ -70,7 +70,6 @@ body    {
       <li><a href="Category 4.html">Anything!</a></li>
       <li><a href="Category 5.html">Tips on Anything for Anyone</a></li>
     </ul>       
-    <button id="delete-localstorage">Delete All Posts</button>
 <body>
     <h1>Tips of Anything for Anyone</h1>
 
@@ -143,10 +142,10 @@ body    {
         
 
     };
-    document.getElementById("delete-localstorage").addEventListener("click", function() {
-            localStorage.removeItem("pastPosts_Category5");
-            location.reload(); // reload the page to remove the posts from the UI
-        });
+//    document.getElementById("delete-localstorage").addEventListener("click", function() {
+//            localStorage.removeItem("pastPosts_Category5");
+//            location.reload(); // reload the page to remove the posts from the UI
+//        }); 
     </script>
 </body>
 </html>
